@@ -3,7 +3,7 @@ plugins {
     id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
-application.mainClass = "com.lconvir.bot.modelo.Bot" //
+application.mainClass = "com.lcontvir.bot.modelo.Bot" //
 group = "com.lcontvir"
 version = "1.0"
 

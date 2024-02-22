@@ -1,2 +1,2 @@
-rootProject.name = "PruebaBot"
+rootProject.name = "SCPSL-Donation-Verifier-Bot"
 
