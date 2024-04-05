@@ -35,6 +35,19 @@ CREATE TABLE IF NOT EXISTS `Usuario` (
   CONSTRAINT `FK_Usuario_Role` FOREIGN KEY (`RoleDonador`) REFERENCES `DonadorRole` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
+-- Volcando estructura para tabla Registro
+CREATE TABLE IF NOT EXISTS `Registro` (
+    `Id` int(11) NOT NULL AUTO_INCREMENT,
+    `IdDiscord` varchar(50) DEFAULT NULL,
+    `DiscordName` varchar(50) DEFAULT NULL,
+    `SteamId64` varchar(50) DEFAULT NULL,
+    `RoleDonador` int(11) DEFAULT NULL,
+    `TimeStamp` timestamp NULL DEFAULT NULL,
+    PRIMARY KEY (`Id`) USING BTREE,
+    KEY `FK_Usuario_Role` (`RoleDonador`) USING BTREE,
+    CONSTRAINT `Registro_ibfk_1` FOREIGN KEY (`RoleDonador`) REFERENCES `DonadorRole` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE
+    ) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+
 -- Volcando estructura para vista UsuarioDiscordView
 -- Creando tabla temporal para superar errores de dependencia de VIEW
 CREATE TABLE IF NOT EXISTS `UsuarioDiscordView` (
@@ -56,6 +69,19 @@ CREATE TABLE IF NOT EXISTS `UsuarioSCPSLView` (
 	`RolDonador` VARCHAR(50) NULL COLLATE 'utf8mb4_general_ci',
 	`TimeStamp` TIMESTAMP NULL
 ) ENGINE=MyISAM;
+
+-- Volcando estructura para trigger AlmacenarRegistro
+DELIMITER //
+
+CREATE OR REPLACE TRIGGER AlmacenarRegistro
+AFTER INSERT ON Usuario
+FOR EACH ROW
+BEGIN
+INSERT INTO Registro (`IdDiscord`, `DiscordName`, `SteamId64`, `RoleDonador`, `TimeStamp`)
+VALUES (NEW.`IdDiscord`, NEW.`DiscordName`, NEW.`SteamId64`, NEW.`RoleDonador`, NEW.`TimeStamp`);
+END//
+
+DELIMITER ;
 
 -- Volcando estructura para vista DonadorRoleView
 -- Eliminando tabla temporal y crear estructura final de VIEW
