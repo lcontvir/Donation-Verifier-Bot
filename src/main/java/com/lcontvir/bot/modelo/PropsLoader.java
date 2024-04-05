@@ -98,6 +98,15 @@ public class PropsLoader {
     public static String getBBDDPassw() {
         return appProps.getProperty("BBDDPassw");
     }
+    public static int getExpireDays() {
+        int expireDays = -1;
+        try{
+            expireDays = parseToInt(appProps.getProperty("ExpireDays"));
+        }catch (Exception e){
+            LoggerFactory.getLogger("Bot Donaciones - Props Loader").error("No se ha podido cargar el tiempo de expiracion de la donacion " + e.getMessage());
+        }
+        return expireDays;
+    }
 
     /**
      * Este método obtiene el valor de la propiedad `CoolDownModificacion` de las propiedades de la aplicación.
@@ -133,6 +142,21 @@ public class PropsLoader {
      */
     public static void setCooldownModificacion(int cooldown) {
         appProps.setProperty("CoolDownModificacion", String.valueOf(cooldown));
+    }
+
+    /**
+     * Este método establece el valor de la propiedad `ExpireDays` en las propiedades de la aplicación.
+     *
+     * <p>Convierte el valor entero dado a una cadena de texto utilizando el método {@link String#valueOf(int)} y luego
+     * establece esta cadena de texto como el valor de la propiedad `ExpireDays` en las propiedades de la aplicación {@link #appProps}.</p>
+     *
+     * @param expireDays El valor entero que se establecerá como el valor de la propiedad `ExpireDays`.
+     *
+     * @see Properties#setProperty(String, String)
+     * @see String#valueOf(int)
+     */
+    public static void setExpireDays(int expireDays) {
+        appProps.setProperty("ExpireDays", String.valueOf(expireDays));
     }
 
     /**

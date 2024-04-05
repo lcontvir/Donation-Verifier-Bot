@@ -1,5 +1,6 @@
 package com.lcontvir.bot.modelo.jdbc;
 
+import com.lcontvir.bot.modelo.PropsLoader;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
@@ -60,7 +61,8 @@ public class ConexionBD {
      * 2. Verifica si el archivo existe.
      * 3. Si el archivo existe, lo lee línea por línea.
      * 4. Si la línea contiene una sentencia `CREATE` o `DROP`, ejecuta la sentencia en la base de datos.
-     * 5. Si ocurre una excepción durante la lectura del archivo o la ejecución de la sentencia, se imprime un mensaje de error y se retorna `false`.
+     * 5. Si la linea contiene la palabra %EXPIRE_DAYS%, se remplazara por el tiempo de expiracion configurado
+     * 6. Si ocurre una excepción durante la lectura del archivo o la ejecución de la sentencia, se imprime un mensaje de error y se retorna `false`.
      * </p>
      *
      * @return {@link Boolean} - Retorna `true` si la preparación de la base de datos se completó correctamente, `false` en caso contrario.
@@ -99,6 +101,9 @@ public class ConexionBD {
                 while ((linea = br.readLine()) != null) {
                     if (linea.contains("CREATE") || linea.contains("DROP")) {
                         if (sb.length() > 0) {
+                            if(linea.contains("%EXPIRE_DAYS%")){
+                                linea = linea.replace("%EXPIRE_DAYS%", String.valueOf(PropsLoader.getExpireDays()));
+                            }
                             LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Preparando Insercion");
                             EjecutarSentencia(sb.toString());
                             LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Insercion correcta!");

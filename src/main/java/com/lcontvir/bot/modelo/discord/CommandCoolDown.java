@@ -18,7 +18,6 @@ public class CommandCoolDown {
      * Este método verifica si el miembro proporcionado está en el HashMap `UsuariosEnCooldDown`. Si el miembro está presente,
      * entonces comprueba si ha pasado menos de una hora determinada desde que se añadió. Si es así, el método devuelve true, indicando que el
      * miembro está en período de enfriamiento. Si ha pasado más de una hora determinada, el miembro se elimina del HashMap y el método devuelve false.
-     *
      * @param member El miembro a comprobar.
      * @return {@link Boolean} Devuelve true si el miembro está en período de enfriamiento, false en caso contrario.
      */

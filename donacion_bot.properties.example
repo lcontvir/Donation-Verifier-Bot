@@ -21,3 +21,6 @@ BBDDPassw =
 
 # Cantidad de tiempo en horas en las que el usuario no podra modificar su donacion
 CoolDownModificacion = 3
+
+# Cantidad de tiempo en dias en los cuales la donacion caducara
+ExpireDays = 30

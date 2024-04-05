@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `DonadorRoleView` (
 ) ENGINE=MyISAM;
 
 -- Volcando estructura para evento eliminar_registros_caducados
-CREATE OR REPLACE EVENT `eliminar_registros_caducados` ON SCHEDULE EVERY 1 DAY STARTS '2024-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM Usuario WHERE TimeStamp < (NOW() - INTERVAL 30 DAY);
+CREATE OR REPLACE EVENT `eliminar_registros_caducados` ON SCHEDULE EVERY 1 DAY STARTS '2024-01-01 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO DELETE FROM Usuario WHERE TimeStamp < (NOW() - INTERVAL %EXPIRE_DAYS% DAY);
 
 -- Volcando estructura para tabla Usuario
 CREATE TABLE IF NOT EXISTS `Usuario` (

@@ -17,6 +17,7 @@ public class Bot {
 
             if (PropsVerificator.VerifySteamConexion() && PropsVerificator.VerifyDatabaseConexion() && ConexionBD.PrepareDatabase() && PropsVerificator.VerifyDiscordConexion()) {
                 PropsVerificator.VerifyCooldownHours();
+                PropsVerificator.VerifyExpireDays();
                 JDA jda = JDABuilder.createLight(PropsLoader.getJDAToken(), GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS).build();
                 jda.addEventListener(new SlashListener());
                 jda.addEventListener(new ReadyListener());

@@ -154,8 +154,6 @@ public class PropsVerificator {
     /**
      * Verifica el valor de cooldown de los comandos. Si el valor es -1, se establece un valor por defecto de 3 horas.
      *
-     * @return {@code true} si el valor de cooldown es válido o se ha establecido un valor por defecto, {@code false} en caso contrario.
-     *
      * @see PropsLoader#getCoolDownModificacion() Para obtener el valor actual de cooldown.
      * @see PropsLoader#setCooldownModificacion(int) Para establecer un nuevo valor de cooldown.
      */
@@ -170,6 +168,27 @@ public class PropsVerificator {
         }
 
         LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Comando Cooldown]: Finalizada Verificacion");
+    }
+
+    /**
+     * Verifica y establece el valor predeterminado para los días de expiración.
+     *
+     * Este método comprueba si el valor de cooldown de modificación está configurado en -1, lo cual indica que no se ha establecido un valor.
+     * Si es así, establece el valor predeterminado de los días de expiración a 30 días. Este proceso asegura que siempre haya un valor válido para los días de expiración.
+     *
+     * @see PropsLoader#getCoolDownModificacion() para obtener el valor actual de cooldown de modificación.
+     * @see PropsLoader#setExpireDays(int) para establecer el valor de los días de expiración.
+     */
+    public static void VerifyExpireDays() {
+        System.out.println("-------------------------");
+        LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Expire Days]: Comenzando Verificacion");
+        LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Expire Days]: Comprobando Tiempo");
+        if(PropsLoader.getCoolDownModificacion() == -1){
+            LoggerFactory.getLogger("Bot Donaciones - Props Verificator").warn(" - [Fase Expire Days]: Configure su tiempo de expiracion, se usara 30 dias como valor default");
+            PropsLoader.setExpireDays(30);
+        }
+
+        LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Expire Days]: Finalizada Verificacion");
     }
 
 }

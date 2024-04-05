@@ -1,5 +1,6 @@
 package com.lcontvir.bot.modelo.discord;
 
+import com.lcontvir.bot.modelo.PropsLoader;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Timestamp;
@@ -86,7 +87,7 @@ public class Donador {
      * <p>
      * Finalmente, se devuelve el resultado de restar los días calculados a 30.
      *
-     * @return {@link Integer} El número de días restantes hasta alcanzar los 30 días desde la fecha y hora almacenada en TimeStamp.
+     * @return {@link Integer} El número de días restantes hasta alcanzar los días configurados en el programa desde la fecha y hora almacenada en TimeStamp.
      * Si ocurre una excepción, se devuelve el número de días restantes asumiendo que no ha pasado ningún día.
      */
     public long calcularDiasRestantes() {
@@ -99,6 +100,6 @@ public class Donador {
         } catch (Exception e) {
             LoggerFactory.getLogger("Bot Donaciones - Donador").error("Ha ocurrido un error al calcular los dias restantes de una donacion: " + e.getMessage());
         }
-        return 30 - diasRestantes;
+        return PropsLoader.getExpireDays() - diasRestantes;
     }
 }
