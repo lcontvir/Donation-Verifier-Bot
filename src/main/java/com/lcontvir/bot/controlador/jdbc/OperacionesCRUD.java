@@ -89,15 +89,20 @@ public class OperacionesCRUD {
      */
     public static boolean ActualizarDonacionBBDD(SteamJugador steamJugador, Member discordMember, String idDiscordRole) {
         boolean actualizado = false;
-        int idDonador = DiscordJdbcExtensions.obtenerIdDonadorRole(idDiscordRole);
+        int idDonador = -1;
         Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 
-        Role rolActual = discordMember.getJDA().getRoleById(idDiscordRole);
-        Role rolAntiguo = discordMember.getJDA().getRoleById(obtenerDonador(discordMember).getRoleDonador().getIdDiscordRole());
+        try{
+            Role rolActual = discordMember.getJDA().getRoleById(idDiscordRole);
+            Role rolAntiguo = discordMember.getJDA().getRoleById(obtenerDonador(discordMember).getRoleDonador().getIdDiscordRole());
+            idDonador = DiscordJdbcExtensions.obtenerIdDonadorRole(idDiscordRole);
 
-        if (rolAntiguo.getPosition() <= rolActual.getPosition()) {
-            idDonador = DiscordJdbcExtensions.obtenerIdDonadorRole(obtenerDonador(discordMember).getRoleDonador().getIdDiscordRole());
-            timeStamp = obtenerDonador(discordMember).getTimeStamp();
+            if (rolAntiguo.getPosition() > rolActual.getPosition()) {
+                idDonador = DiscordJdbcExtensions.obtenerIdDonadorRole(obtenerDonador(discordMember).getRoleDonador().getIdDiscordRole());
+                timeStamp = obtenerDonador(discordMember).getTimeStamp();
+            }
+        }catch (NullPointerException e){
+            LoggerFactory.getLogger("Bot Donaciones - Operaciones CRUD").error("Error al actualizar un donador de la base de datos, uno de los roles de la base de datos no es correcto: " + e.getMessage());
         }
 
         if (idDonador != -1) {
