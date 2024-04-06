@@ -99,17 +99,21 @@ public class ConexionBD {
                 String linea;
 
                 while ((linea = br.readLine()) != null) {
-                    if (linea.contains("CREATE") || linea.contains("DROP")) {
+                    if (linea.contains("CREATE") || linea.contains("DROP")){
                         if (sb.length() > 0) {
-                            if(linea.contains("%EXPIRE_DAYS%")){
-                                linea = linea.replace("%EXPIRE_DAYS%", String.valueOf(PropsLoader.getExpireDays()));
-                            }
                             LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Preparando Insercion");
-                            EjecutarSentencia(sb.toString());
-                            LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Insercion correcta!");
-                            respuesta = true;
-                            sb.setLength(0);
+                            try{
+                                EjecutarSentencia(sb.toString());
+                                LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Insercion correcta!");
+                                respuesta = true;
+                            }finally {
+                                sb.setLength(0);
+
+                            }
                         }
+                    }
+                    if(linea.contains("%EXPIRE_DAYS%")){
+                        linea = linea.replace("%EXPIRE_DAYS%", String.valueOf(PropsLoader.getExpireDays()));
                     }
                     sb.append(linea).append("\n");
                 }
@@ -154,7 +158,7 @@ public class ConexionBD {
         try (Connection conexion = ConexionBD.obtenerConexion()) {
             conexion.createStatement().executeUpdate(sentencia);
         } catch (SQLException e) {
-            LoggerFactory.getLogger("Bot Donaciones  Conexion DB").error(" - [Preparacion Base de Datos]: Error al insertar una de las sentencias de preparacion en la base de datos: " + e.getMessage());
+            LoggerFactory.getLogger("Bot Donaciones  Conexion DB").error(" - [Preparacion Base de Datos]: Error al insertar una de las sentencias de preparacion en la base de datos:\n " + sentencia + "\n" + e.getMessage());
         } catch (RuntimeException ex) {
             LoggerFactory.getLogger("Bot Donaciones  Conexion DB").error(" - [Preparacion Base de Datos]: Ha ocurrido un error al contactar una sentencia de preparacion de la base de datos: " + ex.getMessage());
         }
