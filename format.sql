@@ -86,12 +86,12 @@ DROP TABLE IF EXISTS `UsuarioSCPSLView`;
 CREATE OR REPLACE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `UsuarioSCPSLView` AS select `u`.`Id` AS `Id`,`u`.`IdDiscord` AS `IdDiscord`,`u`.`DiscordName` AS `DiscordName`,`u`.`SteamId64` AS `SteamId64`,`d`.`IdSteamRole` AS `RolDonador`,`u`.`TimeStamp` AS `TimeStamp` from (`Usuario` `u` join `DonadorRole` `d`) where `u`.`RoleDonador` = `d`.`Id`;
 
 -- Volcando estructura para disparador bot.almacenar_registro
-CREATE OR REPLACE TRIGGER almacenar_registro
+CREATE OR REPLACE TRIGGER Almacenar_registro
 AFTER INSERT ON Usuario
 FOR EACH ROW
 BEGIN
-INSERT INTO registro (id_usuario, nombre_usuario, email_usuario)
-VALUES (id_usuario, nombre_usuario, email_usuario);
+INSERT INTO registro (Id, IdDiscord, DiscordName, SteamId64, RoleDonador, TimeStamp)
+VALUES (NEW.Id, NEW.IdDiscord, NEW.DiscordName, NEW.SteamId64, NEW.RoleDonador, NEW.TimeStamp);
 END;
 
 -- --------------------------------------------------------
