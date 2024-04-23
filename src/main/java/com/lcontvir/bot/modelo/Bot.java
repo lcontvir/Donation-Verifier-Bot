@@ -20,8 +20,8 @@ public class Bot {
                 PropsVerificator.VerifyCooldownHours();
                 PropsVerificator.VerifyExpireDays();
                 JDA jda = JDABuilder.createLight(PropsLoader.getJDAToken(), GatewayIntent.GUILD_MESSAGES, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS).build();
-                jda.addEventListener(new SlashListener());
                 jda.addEventListener(new ReadyListener());
+                jda.addEventListener(new SlashListener());
                 jda.addEventListener(new ModalListener());
                 LoggerFactory.getLogger("Bot Donaciones").info("Bot desplegado correctamente, escuchando donaciones!");
             }

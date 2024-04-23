@@ -98,6 +98,11 @@ public class PropsLoader {
     public static String getBBDDPassw() {
         return appProps.getProperty("BBDDPassw");
     }
+
+    public static String getFeedbackChannelId() {
+        return appProps.getProperty("FeedbackChannelId");
+    }
+
     public static int getExpireDays() {
         int expireDays = -1;
         try{

@@ -24,3 +24,6 @@ CoolDownModificacion = 3
 
 # Cantidad de tiempo en dias en los cuales la donacion caducara
 ExpireDays = 30
+
+#Identificar del canal donde ira destinado el feedback
+FeedbackChannelId = 1037337266697285685

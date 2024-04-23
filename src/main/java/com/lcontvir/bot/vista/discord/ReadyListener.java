@@ -1,5 +1,6 @@
 package com.lcontvir.bot.vista.discord;
 
+import com.lcontvir.bot.modelo.PropsVerificator;
 import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -17,6 +18,11 @@ public class ReadyListener extends ListenerAdapter {
     @Override
     public void onReady(ReadyEvent event) {
         try {
+
+            if(!PropsVerificator.VerifyFeedbackChannelId(event.getJDA())){
+                System.exit(0);
+            }
+
             event.getJDA().updateCommands().addCommands(
                     Commands.slash("registrar-donacion", "Registra tu donacion")
                             .addOption(OptionType.STRING, "steamid64", "Tu steamid", true),

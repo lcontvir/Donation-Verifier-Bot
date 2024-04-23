@@ -4,8 +4,11 @@ import com.lcontvir.bot.controlador.steam.SteamAPI;
 import com.lcontvir.bot.modelo.jdbc.ConexionBD;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class PropsVerificator {
 
@@ -189,6 +192,29 @@ public class PropsVerificator {
         }
 
         LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Expire Days]: Finalizada Verificacion");
+    }
+
+    /**
+     * Verifica la existencia y disponibilidad de un canal de feedback en Discord.
+     *
+     * @param jda El objeto JDA que representa la conexión a Discord.
+     * @return true si el canal de feedback está configurado y disponible, false de lo contrario.
+     *
+     * @see PropsLoader#getFeedbackChannelId()
+     * @see JDA#getTextChannelById(String)
+     */
+    public static boolean VerifyFeedbackChannelId(JDA jda) {
+        boolean response = false;
+        System.out.println("-------------------------");
+        LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Feedback Channel Id]: Comenzando Verificacion");
+        LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Feedback Channel Id]: Comprobando Id");
+        if (jda.getTextChannelById(PropsLoader.getFeedbackChannelId()) == null){
+            LoggerFactory.getLogger("Bot Donaciones - Props Verificator").warn(" - [Fase Feedback Channel Id]: El canal configurado no existe o no se encuentra");
+        }else{
+            response = true;
+        }
+        LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Feedback Channel Id]: Finalizada Verificacion");
+        return response;
     }
 
 }
