@@ -17,7 +17,14 @@ public class ReadyListener extends ListenerAdapter {
     @Override
     public void onReady(ReadyEvent event) {
         try {
-            event.getJDA().updateCommands().addCommands(Commands.slash("registrar-donacion", "Registra tu donacion").addOption(OptionType.STRING, "steamid64", "Tu steamid", true), Commands.slash("ver-donacion", "Muestra los datos de tu donacion"), Commands.slash("modificar-donacion", "Modifica los datos de tu donacion").addOption(OptionType.STRING, "steamid64", "Tu steamid", true)).queue();
+            event.getJDA().updateCommands().addCommands(
+                    Commands.slash("registrar-donacion", "Registra tu donacion")
+                            .addOption(OptionType.STRING, "steamid64", "Tu steamid", true),
+                    Commands.slash("ver-donacion", "Muestra los datos de tu donacion"),
+                    Commands.slash("modificar-donacion", "Modifica los datos de tu donacion")
+                            .addOption(OptionType.STRING, "steamid64", "Tu steamid", true),
+                    Commands.slash("feedback", "Registra un feedback al servidor")
+            ).queue();
 
         } catch (Exception e) {
             LoggerFactory.getLogger("Bot Donaciones - Ready Listener").error("Ha ocurrido un problema al registrar los comandos: " + e.getMessage());

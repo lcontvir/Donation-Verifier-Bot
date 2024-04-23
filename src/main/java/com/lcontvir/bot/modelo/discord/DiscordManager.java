@@ -1,13 +1,19 @@
 package com.lcontvir.bot.modelo.discord;
 
 import com.lcontvir.bot.controlador.discord.DonationEmbedBuilder;
+import com.lcontvir.bot.controlador.discord.FeedbackEmbedBuilder;
 import com.lcontvir.bot.controlador.jdbc.DiscordJdbcExtensions;
 import com.lcontvir.bot.controlador.jdbc.OperacionesCRUD;
 import com.lcontvir.bot.modelo.steam.SteamJugador;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.spi.CalendarNameProvider;
 
 import static com.lcontvir.bot.controlador.jdbc.OperacionesCRUD.obtenerDonador;
 
@@ -144,5 +150,21 @@ public class DiscordManager {
         }
 
         return respuesta;
+    }
+
+    public static void RegistrarFeedbackAnonimo(String asunto, String cuerpo, Guild servidor){
+        List<TextChannel> canalesFeedback = servidor.getTextChannelsByName("feedback", true);
+        System.out.println(canalesFeedback.size());
+        if(canalesFeedback.size() == 1){
+            canalesFeedback.get(0).sendMessageEmbeds(FeedbackEmbedBuilder.FeedBackRegisterAnonimo(asunto, cuerpo)).queue();
+        }
+    }
+
+    public static void RegistrarFeedback(String asunto, String cuerpo, Member miembro){
+        List<TextChannel> canalesFeedback = miembro.getGuild().getTextChannelsByName("feedback", true);
+        System.out.println(canalesFeedback.size());
+        if(canalesFeedback.size() == 1){
+            canalesFeedback.get(0).sendMessageEmbeds(FeedbackEmbedBuilder.FeedBackRegister(miembro, asunto, cuerpo)).queue();
+        }
     }
 }

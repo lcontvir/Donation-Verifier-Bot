@@ -5,6 +5,10 @@ import net.dv8tion.jda.api.entities.EmbedType;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.components.ActionRow;
+import net.dv8tion.jda.api.interactions.components.text.TextInput;
+import net.dv8tion.jda.api.interactions.components.text.TextInputStyle;
+import net.dv8tion.jda.api.interactions.modals.Modal;
 import org.slf4j.LoggerFactory;
 
 import java.time.OffsetDateTime;
@@ -34,6 +38,32 @@ public class SlashListener extends ListenerAdapter {
                     case "modificar-donacion":
                         event.replyEmbeds(DiscordManager.ModificarDonacion(event.getMember(), event.getOption("steamid64").getAsString())).queue();
                         break;
+                    case "feedback":
+                        TextInput usuario = TextInput.create("usuario", "Usuario", TextInputStyle.PARAGRAPH)
+                                .setPlaceholder("Dejalo en blanco si quieres que sea anonimo")
+                                .setMinLength(3)
+                                .setMaxLength(15)
+                                .setRequired(false)
+                                .build();
+
+                        TextInput asunto = TextInput.create("asunto", "Asunto", TextInputStyle.SHORT)
+                                .setPlaceholder("Asunto del feedback")
+                                .setMinLength(5)
+                                .setMaxLength(30)
+                                .build();
+
+                        TextInput body = TextInput.create("cuerpo", "Cuerpo", TextInputStyle.PARAGRAPH)
+                                .setPlaceholder("Comunica lo que necesites!")
+                                .setMinLength(0)
+                                .setMaxLength(1024)
+                                .build();
+
+                        Modal modal = Modal.create("feedback", "Feedback")
+                                .addComponents(ActionRow.of(usuario), ActionRow.of(asunto), ActionRow.of(body))
+                                .build();
+
+                        event.replyModal(modal).queue();
+
                 }
             } else {
                 event.replyEmbeds(new MessageEmbed(
