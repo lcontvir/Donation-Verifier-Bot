@@ -12,6 +12,8 @@ import java.util.List;
 
 public class PropsVerificator {
 
+    public static boolean feedbackCommandActive = false;
+
     /**
      * Verifica la conexión con Discord utilizando el token de Discord proporcionado en la configuración.
      *
@@ -203,18 +205,18 @@ public class PropsVerificator {
      * @see PropsLoader#getFeedbackChannelId()
      * @see JDA#getTextChannelById(String)
      */
-    public static boolean VerifyFeedbackChannelId(JDA jda) {
-        boolean response = false;
+    public static void VerifyFeedbackChannelId(JDA jda) {
         System.out.println("-------------------------");
         LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Feedback Channel Id]: Comenzando Verificacion");
         LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Feedback Channel Id]: Comprobando Id");
-        if (jda.getTextChannelById(PropsLoader.getFeedbackChannelId()) == null){
-            LoggerFactory.getLogger("Bot Donaciones - Props Verificator").warn(" - [Fase Feedback Channel Id]: El canal configurado no existe o no se encuentra");
+        if(PropsLoader.getFeedbackChannelId() == null || PropsLoader.getFeedbackChannelId().isEmpty()){
+            LoggerFactory.getLogger("Bot Donaciones - Props Verificator").warn(" - [Fase Feedback Channel Id]: El canal de feedback no esta configurado");
+        }
+        else if (jda.getTextChannelById(PropsLoader.getFeedbackChannelId()) == null){
+            LoggerFactory.getLogger("Bot Donaciones - Props Verificator").warn(" - [Fase Feedback Channel Id]: El canal de feedback no esta configurado correctamente");
         }else{
-            response = true;
+            feedbackCommandActive = true;
         }
         LoggerFactory.getLogger("Bot Donaciones - Props Verificator").info(" - [Fase Feedback Channel Id]: Finalizada Verificacion");
-        return response;
     }
-
 }

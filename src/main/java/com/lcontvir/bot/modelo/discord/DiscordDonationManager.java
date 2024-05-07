@@ -6,19 +6,15 @@ import com.lcontvir.bot.controlador.jdbc.DiscordJdbcExtensions;
 import com.lcontvir.bot.controlador.jdbc.OperacionesCRUD;
 import com.lcontvir.bot.modelo.PropsLoader;
 import com.lcontvir.bot.modelo.steam.SteamJugador;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-import java.util.spi.CalendarNameProvider;
-
 import static com.lcontvir.bot.controlador.jdbc.OperacionesCRUD.obtenerDonador;
 
-public class DiscordManager {
+public class DiscordDonationManager {
 
     /**
      * Este método se encarga de registrar una nueva donación en el sistema.
@@ -46,6 +42,7 @@ public class DiscordManager {
 
                     if (jugador != null) {
 
+                        DiscordJdbcExtensions.ActualizarBBDD();
                         OperacionesCRUD.RegistrarDonacionBBDD(jugador, miembro, rolSeleccionadoDiscord.getId());
                         donador = obtenerDonador(miembro);
                         respuesta = DonationEmbedBuilder.DonationApprove("Donacion Registrada!", "Registro de donacion realizado con exito", miembro, jugador, donador);
@@ -98,11 +95,11 @@ public class DiscordManager {
 
                         if (jugador != null) {
 
+                            DiscordJdbcExtensions.ActualizarBBDD();
                             OperacionesCRUD.ActualizarDonacionBBDD(jugador, miembro, rolSeleccionadoDiscord.getId());
                             donador = obtenerDonador(miembro);
                             respuesta = DonationEmbedBuilder.DonationApprove("Donacion Modificada!", "Registro de donacion modificada con exito", miembro, jugador, donador);
                             CommandCoolDown.AddCooldown(miembro);
-
 
                         } else {
                             respuesta = DonationEmbedBuilder.DonationDeny("Error en la donacion!", "La id proporcionada no es valida, por favor, verificala!", miembro);
@@ -142,6 +139,7 @@ public class DiscordManager {
             if (DiscordJdbcExtensions.haDonado(miembro)) {
                 donador = obtenerDonador(miembro);
                 jugador = SteamJugador.GetSteamJugador(donador.getSteamid64());
+                DiscordJdbcExtensions.ActualizarBBDD();
                 respuesta = DonationEmbedBuilder.DonationApprove("Tu Donacion!", "Gracias por donar a nuestro servidor!", miembro, jugador, donador);
             } else {
                 respuesta = DonationEmbedBuilder.DonationDeny("Donacion Previamente No Registrada!", "No existe una donacion previa! Registre su donacion!", miembro);

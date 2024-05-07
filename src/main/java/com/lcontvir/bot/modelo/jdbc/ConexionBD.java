@@ -98,8 +98,10 @@ public class ConexionBD {
                 StringBuilder sb = new StringBuilder();
                 String linea;
 
+                EjecutarSentencia("SET GLOBAL event_scheduler=ON;");
+
                 while ((linea = br.readLine()) != null) {
-                    if (linea.contains("CREATE") || linea.contains("DROP")){
+                    if (linea.contains("-- Separador")){
                         if (sb.length() > 0) {
                             LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Preparando Insercion");
                             try{
@@ -108,7 +110,6 @@ public class ConexionBD {
                                 respuesta = true;
                             }finally {
                                 sb.setLength(0);
-
                             }
                         }
                     }
@@ -156,7 +157,7 @@ public class ConexionBD {
      */
     private static void EjecutarSentencia(String sentencia) {
         try (Connection conexion = ConexionBD.obtenerConexion()) {
-            conexion.createStatement().executeUpdate(sentencia);
+            conexion.createStatement().execute(sentencia);
         } catch (SQLException e) {
             LoggerFactory.getLogger("Bot Donaciones  Conexion DB").error(" - [Preparacion Base de Datos]: Error al insertar una de las sentencias de preparacion en la base de datos:\n " + sentencia + "\n" + e.getMessage());
         } catch (RuntimeException ex) {

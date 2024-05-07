@@ -137,4 +137,14 @@ public class DiscordJdbcExtensions {
 
         return idDonadorRole;
     }
+
+    public static void ActualizarBBDD(){
+        String sql = "DELETE FROM Usuario WHERE TimeStamp < (NOW() - INTERVAL 31 DAY)";
+        try (Connection connection = ConexionBD.obtenerConexion(); PreparedStatement statement = connection.prepareStatement(sql)) {
+            int result = statement.executeUpdate();
+            LoggerFactory.getLogger("Bot Donaciones - Discord JDBC Extensions").error("Se ha actualizado la BBDD con resultado: " + result);
+        } catch (Exception e) {
+            LoggerFactory.getLogger("Bot Donaciones - Discord JDBC Extensions").error("Error al actualizar datos en la BBDD: " + e.getMessage());
+        }
+    }
 }

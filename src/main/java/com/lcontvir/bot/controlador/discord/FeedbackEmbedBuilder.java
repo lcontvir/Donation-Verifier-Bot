@@ -77,4 +77,22 @@ public class FeedbackEmbedBuilder {
                 null,
                 fields);
     }
+
+    public static MessageEmbed FeedBackInactive(){
+
+        return new MessageEmbed(
+                "",
+                "Comando Inactivo!",
+                "Este comando esta inactivo en este momento!",
+                EmbedType.RICH,
+                OffsetDateTime.now(),
+                16711680,
+                null,
+                null,
+                null,
+                null,
+                new MessageEmbed.Footer("Feedback Servidor", "", ""),
+                null,
+                null);
+    }
 }

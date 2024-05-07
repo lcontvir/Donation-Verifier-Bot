@@ -1,6 +1,9 @@
 package com.lcontvir.bot.vista.discord;
 
-import com.lcontvir.bot.modelo.discord.DiscordManager;
+import com.lcontvir.bot.controlador.discord.FeedbackEmbedBuilder;
+import com.lcontvir.bot.controlador.discord.SupportEmbedBuilder;
+import com.lcontvir.bot.modelo.PropsVerificator;
+import com.lcontvir.bot.modelo.discord.DiscordDonationManager;
 import net.dv8tion.jda.api.entities.EmbedType;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -30,54 +33,60 @@ public class SlashListener extends ListenerAdapter {
             if (event.getMember() != null) {
                 switch (event.getName()) {
                     case "registrar-donacion":
-                        event.replyEmbeds(DiscordManager.NuevaDonacion(event.getMember(), event.getOption("steamid64").getAsString())).queue();
+                        event.replyEmbeds(DiscordDonationManager.NuevaDonacion(event.getMember(), event.getOption("steamid64").getAsString())).queue();
                         break;
                     case "ver-donacion":
-                        event.replyEmbeds(DiscordManager.VerDonacion(event.getMember())).queue();
+                        event.replyEmbeds(DiscordDonationManager.VerDonacion(event.getMember())).queue();
                         break;
                     case "modificar-donacion":
-                        event.replyEmbeds(DiscordManager.ModificarDonacion(event.getMember(), event.getOption("steamid64").getAsString())).queue();
+                        event.replyEmbeds(DiscordDonationManager.ModificarDonacion(event.getMember(), event.getOption("steamid64").getAsString())).queue();
                         break;
                     case "feedback":
-                        TextInput usuario = TextInput.create("usuario", "Usuario", TextInputStyle.PARAGRAPH)
-                                .setPlaceholder("Dejalo en blanco si quieres que sea anonimo")
-                                .setMinLength(3)
-                                .setMaxLength(15)
-                                .setRequired(false)
-                                .build();
+                        if(PropsVerificator.feedbackCommandActive){
 
-                        TextInput asunto = TextInput.create("asunto", "Asunto", TextInputStyle.SHORT)
-                                .setPlaceholder("Asunto del feedback")
-                                .setMinLength(5)
-                                .setMaxLength(30)
-                                .build();
+                            TextInput usuario = TextInput.create("usuario", "Usuario", TextInputStyle.PARAGRAPH)
+                                    .setPlaceholder("Dejalo en blanco si quieres que sea anonimo")
+                                    .setMinLength(3)
+                                    .setRequired(false)
+                                    .build();
 
-                        TextInput body = TextInput.create("cuerpo", "Cuerpo", TextInputStyle.PARAGRAPH)
-                                .setPlaceholder("Comunica lo que necesites!")
-                                .setMinLength(0)
-                                .setMaxLength(1024)
-                                .build();
+                            TextInput asunto = TextInput.create("asunto", "Asunto", TextInputStyle.SHORT)
+                                    .setPlaceholder("Asunto del feedback")
+                                    .setMinLength(5)
+                                    .setMaxLength(30)
+                                    .build();
 
-                        Modal modal = Modal.create("feedback", "Feedback")
-                                .addComponents(ActionRow.of(usuario), ActionRow.of(asunto), ActionRow.of(body))
-                                .build();
+                            TextInput body = TextInput.create("cuerpo", "Cuerpo", TextInputStyle.PARAGRAPH)
+                                    .setPlaceholder("Comunica lo que necesites!")
+                                    .setMinLength(0)
+                                    .setMaxLength(1024)
+                                    .build();
 
-                        event.replyModal(modal).queue();
+                            Modal modal = Modal.create("feedback", "Feedback")
+                                    .addComponents(ActionRow.of(usuario), ActionRow.of(asunto), ActionRow.of(body))
+                                    .build();
 
+                            event.replyModal(modal).queue();
+                        }
+                        else{
+                            event.replyEmbeds(FeedbackEmbedBuilder.FeedBackInactive()).queue();
+                        }
+                    case "soporte":
+                            event.replyEmbeds(SupportEmbedBuilder.RequestBaseSupportEmbed()).addActionRow(SupportEmbedBuilder.RequestBaseSupportActionRowButtons()).queue();
                 }
             } else {
                 event.replyEmbeds(new MessageEmbed(
                         "",
-                        "Error en la donacion",
-                        "Ha ocurrido un error al donar, intentalo mas tarde",
+                        "Error Interno",
+                        "Ha ocurrido un error, intentalo de nuevo mas tarde, si sique sin funcionar, ponte en contacto con un administrador",
                         EmbedType.RICH,
                         OffsetDateTime.now(),
                         16711680,
-                        new MessageEmbed.Thumbnail("https://media.discordapp.net/attachments/1037337266697285685/1199103877262344212/error.png?ex=65c15382&is=65aede82&hm=bb13a110e392fd33774142a0e85f415b0ecd4bcdeec0048a02fb5069ee0a91ff&=&format=webp&quality=lossless", "", 500, 500),
                         null,
                         null,
                         null,
-                        new MessageEmbed.Footer("Donaciones Servidor", "", ""),
+                        null,
+                        null,
                         null,
                         null)).queue();
             }
