@@ -98,7 +98,7 @@ public class Donador {
 
             diasRestantes = ChronoUnit.DAYS.between(actual, db);
         } catch (Exception e) {
-            LoggerFactory.getLogger("Bot Donaciones - Donador").error("Ha ocurrido un error al calcular los dias restantes de una donacion: " + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I - Donador").error("Ha ocurrido un error al calcular los dias restantes de una donacion: " + e.getMessage());
         }
         return PropsLoader.getExpireDays() - diasRestantes;
     }

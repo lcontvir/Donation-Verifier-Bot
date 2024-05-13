@@ -42,7 +42,7 @@ public class SlashListener extends ListenerAdapter {
                         event.replyEmbeds(DiscordDonationManager.ModificarDonacion(event.getMember(), event.getOption("steamid64").getAsString())).queue();
                         break;
                     case "feedback":
-                        if(PropsVerificator.feedbackCommandActive){
+                        if (PropsVerificator.feedbackCommandActive) {
 
                             TextInput usuario = TextInput.create("usuario", "Usuario", TextInputStyle.PARAGRAPH)
                                     .setPlaceholder("Dejalo en blanco si quieres que sea anonimo")
@@ -67,12 +67,12 @@ public class SlashListener extends ListenerAdapter {
                                     .build();
 
                             event.replyModal(modal).queue();
+                        } else {
+                            event.replyEmbeds(FeedbackEmbedBuilder.FeedBackInactive()).setEphemeral(true).queue();
                         }
-                        else{
-                            event.replyEmbeds(FeedbackEmbedBuilder.FeedBackInactive()).queue();
-                        }
+                        break;
                     case "soporte":
-                            event.replyEmbeds(SupportEmbedBuilder.RequestBaseSupportEmbed()).addActionRow(SupportEmbedBuilder.RequestBaseSupportActionRowButtons()).queue();
+                        event.replyEmbeds(SupportEmbedBuilder.RequestBaseSupportEmbed()).addActionRow(SupportEmbedBuilder.RequestBaseSupportActionRowButtons()).setEphemeral(true).queue();
                 }
             } else {
                 event.replyEmbeds(new MessageEmbed(
@@ -88,10 +88,10 @@ public class SlashListener extends ListenerAdapter {
                         null,
                         null,
                         null,
-                        null)).queue();
+                        null)).setEphemeral(true).queue();
             }
         } catch (Exception e) {
-            LoggerFactory.getLogger("Bot Donaciones - Slash Listener").error("Ha ocurrido un problema al manejar los comandos slash: " + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I - Slash Listener").error("Ha ocurrido un problema al manejar los comandos slash: " + e.getMessage());
         }
     }
 }

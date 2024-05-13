@@ -7,6 +7,13 @@
 # Token de conexión a Discord
 JDA_TOKEN =
 
+
+
+# --- --- Apartado configuracion conexion a terceros  --- ---
+
+#Deberia de estar activado la conexion a terceros?
+ConexionATercerosActive = True
+
 # Token de conexión a Steam API
 STEAM_TOKEN =
 
@@ -25,5 +32,25 @@ CoolDownModificacion = 3
 # Cantidad de tiempo en dias en los cuales la donacion caducara
 ExpireDays = 30
 
+
+
+# --- --- Apartado configuracion canal de feedback  --- ---
+
+#Deberia de estar activado el feedback?
+FeedbackActive = True
+
 #Identificar del canal donde ira destinado el feedback
 FeedbackChannelId =
+
+
+
+# --- --- Apartado configuracion canal de soporte automatico  --- ---
+
+#Deberia de estar activado el soporte?
+SoporteActive = True
+
+#Identificar del canal donde ira destinado el soporte
+SupportChannelId =
+
+#Identificar de la categoria donde se crearan los tickets
+TicketCategoryId =

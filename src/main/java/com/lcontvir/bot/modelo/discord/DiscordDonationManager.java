@@ -60,7 +60,7 @@ public class DiscordDonationManager {
                 respuesta = DonationEmbedBuilder.DonationApprove("Donacion Previamente Registrada!", "Ya existe una donacion previa! Modifique su donacion!", miembro, jugador, donador);
             }
         } catch (Exception e) {
-            LoggerFactory.getLogger("Bot Donaciones - Discord Manager").error("Ha ocurrido un error al registrar una nueva donacion: " + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I - Discord Manager").error("Ha ocurrido un error al registrar una nueva donacion: " + e.getMessage());
         }
         return respuesta;
     }
@@ -114,7 +114,7 @@ public class DiscordDonationManager {
                 respuesta = DonationEmbedBuilder.DonationDeny("Donacion No Modificada!", "No puedes ejecutar este comando todavia por que esta en cooldown, espera un tiempo para ejecutarlo!", miembro);
             }
         } catch (Exception e) {
-            LoggerFactory.getLogger("Bot Donaciones - Discord Manager").error("Ha ocurrido un error al modificar una nueva donacion: " + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I - Discord Manager").error("Ha ocurrido un error al modificar una nueva donacion: " + e.getMessage());
         }
         return respuesta;
     }
@@ -145,7 +145,7 @@ public class DiscordDonationManager {
                 respuesta = DonationEmbedBuilder.DonationDeny("Donacion Previamente No Registrada!", "No existe una donacion previa! Registre su donacion!", miembro);
             }
         } catch (Exception e) {
-            LoggerFactory.getLogger("Bot Donaciones - Discord Manager").error("Ha ocurrido un error al ver una nueva donacion: " + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I - Discord Manager").error("Ha ocurrido un error al ver una nueva donacion: " + e.getMessage());
         }
 
         return respuesta;

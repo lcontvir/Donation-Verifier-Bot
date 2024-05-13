@@ -33,7 +33,7 @@ public class OperacionesCRUD {
                 donador.setIdDiscord(rs.getString("IdDiscord"));
                 donador.setDiscordName(rs.getString("DiscordName"));
                 donador.setSteamid64(rs.getString("SteamId64"));
-                donador.setTimeStamp(rs.getTimestamp("TimeStamp"));
+                donador.setTimeStamp(rs.getTimestamp("FechaRegistro"));
             }
 
         } catch (SQLException e) {
@@ -56,7 +56,7 @@ public class OperacionesCRUD {
         boolean registrado = false;
         int idDonador = DiscordJdbcExtensions.obtenerIdDonadorRole(idDiscordRole);
         if (idDonador != -1) {
-            String sql = "INSERT INTO Usuario (IdDiscord, DiscordName, SteamId64, RoleDonador, TimeStamp) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO Usuario (IdDiscord, DiscordName, SteamId64, RoleDonador, FechaRegistro) VALUES (?, ?, ?, ?, ?)";
 
             try (Connection conexion = ConexionBD.obtenerConexion();
                  PreparedStatement statement = conexion.prepareStatement(sql)) {
@@ -92,7 +92,7 @@ public class OperacionesCRUD {
         int idDonador = -1;
         Timestamp timeStamp = new Timestamp(System.currentTimeMillis());
 
-        try{
+        try {
             Role rolActual = discordMember.getJDA().getRoleById(idDiscordRole);
             Role rolAntiguo = discordMember.getJDA().getRoleById(obtenerDonador(discordMember).getRoleDonador().getIdDiscordRole());
             idDonador = DiscordJdbcExtensions.obtenerIdDonadorRole(idDiscordRole);
@@ -101,12 +101,12 @@ public class OperacionesCRUD {
                 idDonador = DiscordJdbcExtensions.obtenerIdDonadorRole(obtenerDonador(discordMember).getRoleDonador().getIdDiscordRole());
                 timeStamp = obtenerDonador(discordMember).getTimeStamp();
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             LoggerFactory.getLogger("Bot Donaciones - Operaciones CRUD").error("Error al actualizar un donador de la base de datos, uno de los roles de la base de datos no es correcto: " + e.getMessage());
         }
 
         if (idDonador != -1) {
-            String sql = "UPDATE Usuario SET DiscordName = ?, SteamId64 = ?, RoleDonador = ?, TimeStamp = ? WHERE IdDiscord =" + discordMember.getId();
+            String sql = "UPDATE Usuario SET DiscordName = ?, SteamId64 = ?, RoleDonador = ?, FechaRegistro = ? WHERE IdDiscord =" + discordMember.getId();
 
             try (Connection conexion = ConexionBD.obtenerConexion();
                  PreparedStatement statement = conexion.prepareStatement(sql)) {

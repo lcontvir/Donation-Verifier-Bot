@@ -4,7 +4,6 @@ import net.dv8tion.jda.api.entities.EmbedType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 
-import javax.sound.sampled.Line;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
@@ -13,16 +12,16 @@ public class FeedbackEmbedBuilder {
     /**
      * Crea y devuelve un objeto MessageEmbed para un mensaje de aprobación de feedback.
      *
-     * @param miembro     El miembro de Discord que realiza el feedback.
+     * @param miembro El miembro de Discord que realiza el feedback.
      * @return {@link net.dv8tion.jda.api.entities.MessageEmbed} Un objeto MessageEmbed que contiene la información del mensaje de aprobación.
      */
     public static MessageEmbed FeedBackApprove(Member miembro, boolean IsAnonimo) {
 
         MessageEmbed.AuthorInfo infoAutor;
 
-        if (IsAnonimo){
+        if (IsAnonimo) {
             infoAutor = new MessageEmbed.AuthorInfo("Anonimo", "", null, "");
-        }else{
+        } else {
             infoAutor = new MessageEmbed.AuthorInfo(miembro.getEffectiveName(), "", miembro.getEffectiveAvatarUrl(), "");
         }
 
@@ -45,16 +44,16 @@ public class FeedbackEmbedBuilder {
     /**
      * Crea y devuelve un objeto MessageEmbed para mostrar el mensaje de feedback en el canal correspondiente.
      *
-     * @param miembro     El miembro de Discord que realiza el feedback.
+     * @param miembro El miembro de Discord que realiza el feedback.
      * @return {@link net.dv8tion.jda.api.entities.MessageEmbed} Un objeto MessageEmbed que contiene la información del mensaje de aprobación.
      */
-    public static MessageEmbed FeedBackRegister(String asunto, String cuerpo, Member miembro, boolean IsAnonimo){
+    public static MessageEmbed FeedBackRegister(String asunto, String cuerpo, Member miembro, boolean IsAnonimo) {
 
         MessageEmbed.AuthorInfo infoAutor;
 
-        if (IsAnonimo){
+        if (IsAnonimo) {
             infoAutor = new MessageEmbed.AuthorInfo("Anonimo", "", null, "");
-        }else{
+        } else {
             infoAutor = new MessageEmbed.AuthorInfo(miembro.getEffectiveName(), "", miembro.getEffectiveAvatarUrl(), "");
         }
 
@@ -78,7 +77,7 @@ public class FeedbackEmbedBuilder {
                 fields);
     }
 
-    public static MessageEmbed FeedBackInactive(){
+    public static MessageEmbed FeedBackInactive() {
 
         return new MessageEmbed(
                 "",

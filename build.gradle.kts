@@ -19,6 +19,7 @@ dependencies {
     implementation("org.apache.httpcomponents:httpclient:4.5.13")
     implementation("com.google.code.gson:gson:2.9.1")
     implementation("mysql:mysql-connector-java:8.0.28")
+    implementation("org.json:json:20210307")
 }
 
 tasks.withType<JavaCompile> {

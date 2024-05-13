@@ -1,0 +1,47 @@
+{
+  "Menu_Seleccion": {
+    "0": {
+      "Titulo": "Discord",
+      "Descripcion": "Por que un servidor de discord?",
+      "Emoji": "U+1F4DC",
+      "Path_to_message": "ejemplo.md",
+      "Support_block": "base"
+    },
+    "1": {
+      "Titulo": "Profesionales",
+      "Descripcion": "Existe una categoria dedicada a profesionales?",
+      "Emoji": "U+1F3F0",
+      "Path_to_message": "ejemplo2.md",
+      "Support_block": "base"
+    },
+    "2": {
+      "Titulo": "Nosotros",
+      "Descripcion": "Quieres saber un poco de nosotros?",
+      "Emoji": "U+1F3F0",
+      "Path_to_message": "ejemplo3.md",
+      "Support_block": "base"
+    },
+    "3": {
+      "Titulo": "Contactarnos",
+      "Descripcion": "Como me puedo comunicar con vosotros?",
+      "Emoji": "U+1F3F0",
+      "Path_to_message": "ejemplo4.md",
+      "Support_block": "base"
+    },
+    "5": {
+      "Titulo": "Ferias",
+      "Descripcion": "Quiero ver mas informacion de las ferias",
+      "Emoji": "U+1F3F0",
+      "Support_block": "base",
+      "Path_to_message": "ejemplo6.md",
+      "Id_to_next_supportblock": "1"
+    },
+    "4": {
+      "Titulo": "Feria 11/5/22",
+      "Descripcion": "Informacion sobre la feria 11/5/22",
+      "Emoji": "U+1F3F0",
+      "Path_to_message": "ejemplo5.md",
+      "Support_block": "1"
+    }
+  }
+}

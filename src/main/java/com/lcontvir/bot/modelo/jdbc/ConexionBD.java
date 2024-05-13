@@ -28,10 +28,10 @@ public class ConexionBD {
      *                          <p>
      *                          Ejemplo de uso:
      *                          <pre>
-     *                          {@code
-     *                          Connection conn = ConexionBD.obtenerConexion();
-     *                          }
-     *                          </pre>
+     *                                                   {@code
+     *                                                   Connection conn = ConexionBD.obtenerConexion();
+     *                                                   }
+     *                                                   </pre>
      *                          </p>
      */
     public static Connection obtenerConexion() {
@@ -39,10 +39,10 @@ public class ConexionBD {
             Class.forName("com.mysql.cj.jdbc.Driver");
             return DriverManager.getConnection(URL, USUARIO, PASS);
         } catch (SQLException e) {
-            LoggerFactory.getLogger("Bot Donaciones  Conexion DB").error("Ha ocurrido un error al conectarse a la base de datos: " + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I  Conexion DB").error("Ha ocurrido un error al conectarse a la base de datos: " + e.getMessage());
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
-            LoggerFactory.getLogger("Bot Donaciones  Props Loader").error("No se ha encontrado un driver para la base de datos: " + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I  Props Loader").error("No se ha encontrado un driver para la base de datos: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -81,7 +81,7 @@ public class ConexionBD {
      * @see java.io.BufferedReader#readLine()
      */
     public static boolean PrepareDatabase() {
-        LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Comenzando preparativos");
+        LoggerFactory.getLogger("M.I.M.I  Conexion DB").info(" - [Preparacion Base de Datos]: Comenzando preparativos");
 
         boolean respuesta = false;
         String directorioActual = System.getProperty("user.dir");
@@ -89,8 +89,8 @@ public class ConexionBD {
         String nombreArchivoConfiguracion = "format.sql";
         String rutaArchivoConfiguracion = directorioActual + separador + nombreArchivoConfiguracion;
 
-        LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Preparativos completados");
-        LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Leyendo archivo de uso de Base de Datos");
+        LoggerFactory.getLogger("M.I.M.I  Conexion DB").info(" - [Preparacion Base de Datos]: Preparativos completados");
+        LoggerFactory.getLogger("M.I.M.I  Conexion DB").info(" - [Preparacion Base de Datos]: Leyendo archivo de uso de Base de Datos");
 
 
         if (Files.exists(Paths.get(rutaArchivoConfiguracion))) {
@@ -101,19 +101,19 @@ public class ConexionBD {
                 EjecutarSentencia("SET GLOBAL event_scheduler=ON;");
 
                 while ((linea = br.readLine()) != null) {
-                    if (linea.contains("-- Separador")){
+                    if (linea.contains("-- Separador")) {
                         if (sb.length() > 0) {
-                            LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Preparando Insercion");
-                            try{
+                            LoggerFactory.getLogger("M.I.M.I  Conexion DB").info(" - [Preparacion Base de Datos]: Preparando Insercion");
+                            try {
                                 EjecutarSentencia(sb.toString());
-                                LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Insercion correcta!");
+                                LoggerFactory.getLogger("M.I.M.I  Conexion DB").info(" - [Preparacion Base de Datos]: Insercion correcta!");
                                 respuesta = true;
-                            }finally {
+                            } finally {
                                 sb.setLength(0);
                             }
                         }
                     }
-                    if(linea.contains("%EXPIRE_DAYS%")){
+                    if (linea.contains("%EXPIRE_DAYS%")) {
                         linea = linea.replace("%EXPIRE_DAYS%", String.valueOf(PropsLoader.getExpireDays()));
                     }
                     sb.append(linea).append("\n");
@@ -125,13 +125,13 @@ public class ConexionBD {
                 }
 
             } catch (IOException e) {
-                LoggerFactory.getLogger("Bot Donaciones  Conexion DB").error(" - [Preparacion Base de Datos]: Error al leer las sentencias de preparacion de la base de datos: " + e.getMessage());
+                LoggerFactory.getLogger("M.I.M.I  Conexion DB").error(" - [Preparacion Base de Datos]: Error al leer las sentencias de preparacion de la base de datos: " + e.getMessage());
                 respuesta = false;
             }
         } else {
-            LoggerFactory.getLogger("Bot Donaciones  Conexion DB").error(" - [Preparacion Base de Datos]: No se ha encontrado el archivo de las sentencias de preparacion de la base de datos");
+            LoggerFactory.getLogger("M.I.M.I  Conexion DB").error(" - [Preparacion Base de Datos]: No se ha encontrado el archivo de las sentencias de preparacion de la base de datos");
         }
-        LoggerFactory.getLogger("Bot Donaciones  Conexion DB").info(" - [Preparacion Base de Datos]: Finalizacion de Preparacion de Base de Datos");
+        LoggerFactory.getLogger("M.I.M.I  Conexion DB").info(" - [Preparacion Base de Datos]: Finalizacion de Preparacion de Base de Datos");
         return respuesta;
     }
 
@@ -149,19 +149,19 @@ public class ConexionBD {
      *                  <p>
      *                  Ejemplo de uso:
      *                  <pre>
-     *                  {@code
-     *                  ConexionBD.EjercutarSentencia("INSERT INTO tabla (columna) VALUES ('valor`)");
-     *                  }
-     *                  </pre>
+     *                                   {@code
+     *                                   ConexionBD.EjercutarSentencia("INSERT INTO tabla (columna) VALUES ('valor`)");
+     *                                   }
+     *                                   </pre>
      *                  </p>
      */
     private static void EjecutarSentencia(String sentencia) {
         try (Connection conexion = ConexionBD.obtenerConexion()) {
             conexion.createStatement().execute(sentencia);
         } catch (SQLException e) {
-            LoggerFactory.getLogger("Bot Donaciones  Conexion DB").error(" - [Preparacion Base de Datos]: Error al insertar una de las sentencias de preparacion en la base de datos:\n " + sentencia + "\n" + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I  Conexion DB").error(" - [Preparacion Base de Datos]: Error al insertar una de las sentencias de preparacion en la base de datos:\n " + sentencia + "\n" + e.getMessage());
         } catch (RuntimeException ex) {
-            LoggerFactory.getLogger("Bot Donaciones  Conexion DB").error(" - [Preparacion Base de Datos]: Ha ocurrido un error al contactar una sentencia de preparacion de la base de datos: " + ex.getMessage());
+            LoggerFactory.getLogger("M.I.M.I  Conexion DB").error(" - [Preparacion Base de Datos]: Ha ocurrido un error al contactar una sentencia de preparacion de la base de datos: " + ex.getMessage());
         }
     }
 }

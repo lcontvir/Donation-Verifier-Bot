@@ -38,7 +38,7 @@ public class PropsLoader {
             try (FileInputStream fis = new FileInputStream(archivoConfiguracion.toFile())) {
                 appProps.load(fis);
             } catch (IOException e) {
-                LoggerFactory.getLogger("Bot Donaciones - Props Loader").error("Ha ocurrido un error al cargar la configuracion: " + e.getMessage());
+                LoggerFactory.getLogger("M.I.M.I - Props Loader").error("Ha ocurrido un error al cargar la configuracion: " + e.getMessage());
             }
         } else {
             copiarConfiguracion(directorioActual, separador);
@@ -53,8 +53,7 @@ public class PropsLoader {
      * Si el archivo de ejemplo no existe, imprime un mensaje de error.</p>
      *
      * @param directorioActual El directorio actual del usuario donde se buscará el archivo de propiedades de ejemplo.
-     * @param separador El separador de archivos del sistema operativo.
-     *
+     * @param separador        El separador de archivos del sistema operativo.
      * @see Files#exists(Path, java.nio.file.LinkOption...)
      * @see Files#copy(Path, Path, java.nio.file.CopyOption...)
      */
@@ -70,12 +69,12 @@ public class PropsLoader {
             try {
                 Files.copy(archivoConfiguracionEjemplo, archivoConfiguracion);
 
-                LoggerFactory.getLogger("Bot Donaciones - Props Loader").warn("Se ha creado una configuracion nueva por que no existia una anteriormente, por favor, rellena la configuracion para usar el programa");
+                LoggerFactory.getLogger("M.I.M.I - Props Loader").warn("Se ha creado una configuracion nueva por que no existia una anteriormente, por favor, rellena la configuracion para usar el programa");
             } catch (IOException e) {
-                LoggerFactory.getLogger("Bot Donaciones - Props Loader").error("Error al copiar y renombrar el archivo: " + e.getMessage());
+                LoggerFactory.getLogger("M.I.M.I - Props Loader").error("Error al copiar y renombrar el archivo: " + e.getMessage());
             }
         } else {
-            LoggerFactory.getLogger("Bot Donaciones - Props Loader").error("No se ha podido crear el archivo de configuracion por que no existe su ejemplo.");
+            LoggerFactory.getLogger("M.I.M.I - Props Loader").error("No se ha podido crear el archivo de configuracion por que no existe su ejemplo.");
         }
     }
 
@@ -103,14 +102,71 @@ public class PropsLoader {
         return appProps.getProperty("FeedbackChannelId");
     }
 
+    public static String getSupportChannelId() {
+        return appProps.getProperty("SupportChannelId");
+    }
+
+    public static String getTicketCategoryId() {
+        return appProps.getProperty("TicketCategoryId");
+    }
+
+    public static boolean isConexionATercerosActive() {
+
+        boolean result;
+        try{
+            result = Boolean.parseBoolean(appProps.getProperty("ConexionATercerosActive"));
+        } catch (Exception e) {
+            LoggerFactory.getLogger("M.I.M.I - Props Loader").error("No se ha podido cargar el estado de la conexion a terceros " + e.getMessage());
+            result = false;
+        }
+
+        return result;
+    }
+
+    public static boolean isFeedbackActive() {
+        boolean result;
+        try{
+            result = Boolean.parseBoolean(appProps.getProperty("FeedbackActive"));
+        } catch (Exception e) {
+            result = false;
+        }
+
+        return result;
+    }
+
+    public static boolean isSoporteActive() {
+        boolean result;
+        try{
+            result = Boolean.parseBoolean(appProps.getProperty("SoporteActive"));
+        } catch (Exception e) {
+            result = false;
+        }
+
+        return result;
+    }
+
     public static int getExpireDays() {
         int expireDays = -1;
-        try{
+        try {
             expireDays = parseToInt(appProps.getProperty("ExpireDays"));
-        }catch (Exception e){
-            LoggerFactory.getLogger("Bot Donaciones - Props Loader").error("No se ha podido cargar el tiempo de expiracion de la donacion " + e.getMessage());
+        } catch (Exception e) {
+            LoggerFactory.getLogger("M.I.M.I - Props Loader").error("No se ha podido cargar el tiempo de expiracion de la donacion " + e.getMessage());
         }
         return expireDays;
+    }
+
+    /**
+     * Este método establece el valor de la propiedad `ExpireDays` en las propiedades de la aplicación.
+     *
+     * <p>Convierte el valor entero dado a una cadena de texto utilizando el método {@link String#valueOf(int)} y luego
+     * establece esta cadena de texto como el valor de la propiedad `ExpireDays` en las propiedades de la aplicación {@link #appProps}.</p>
+     *
+     * @param expireDays El valor entero que se establecerá como el valor de la propiedad `ExpireDays`.
+     * @see Properties#setProperty(String, String)
+     * @see String#valueOf(int)
+     */
+    public static void setExpireDays(int expireDays) {
+        appProps.setProperty("ExpireDays", String.valueOf(expireDays));
     }
 
     /**
@@ -120,16 +176,15 @@ public class PropsLoader {
      * Si el valor parseado es -1, lo establece a 1. Finalmente, devuelve el valor de `cooldown`.</p>
      *
      * @return El valor de `cooldown` que es el valor entero de la propiedad `CoolDownModificacion` o 1 si el valor original es -1.
-     *
      * @see #parseToInt(String)
      * @see Properties#getProperty(String)
      */
     public static int getCoolDownModificacion() {
         int cooldown = -1;
-        try{
+        try {
             cooldown = parseToInt(appProps.getProperty("CoolDownModificacion"));
-        }catch (Exception e){
-            LoggerFactory.getLogger("Bot Donaciones - Props Loader").error("No se ha podido cargar el cooldown de los comandos: " + e.getMessage());
+        } catch (Exception e) {
+            LoggerFactory.getLogger("M.I.M.I - Props Loader").error("No se ha podido cargar el cooldown de los comandos: " + e.getMessage());
         }
         return cooldown;
     }
@@ -141,27 +196,11 @@ public class PropsLoader {
      * establece esta cadena de texto como el valor de la propiedad `CoolDownModificacion` en las propiedades de la aplicación {@link #appProps}.</p>
      *
      * @param cooldown El valor entero que se establecerá como el valor de la propiedad `CoolDownModificacion`.
-     *
      * @see Properties#setProperty(String, String)
      * @see String#valueOf(int)
      */
     public static void setCooldownModificacion(int cooldown) {
         appProps.setProperty("CoolDownModificacion", String.valueOf(cooldown));
-    }
-
-    /**
-     * Este método establece el valor de la propiedad `ExpireDays` en las propiedades de la aplicación.
-     *
-     * <p>Convierte el valor entero dado a una cadena de texto utilizando el método {@link String#valueOf(int)} y luego
-     * establece esta cadena de texto como el valor de la propiedad `ExpireDays` en las propiedades de la aplicación {@link #appProps}.</p>
-     *
-     * @param expireDays El valor entero que se establecerá como el valor de la propiedad `ExpireDays`.
-     *
-     * @see Properties#setProperty(String, String)
-     * @see String#valueOf(int)
-     */
-    public static void setExpireDays(int expireDays) {
-        appProps.setProperty("ExpireDays", String.valueOf(expireDays));
     }
 
     /**
@@ -173,7 +212,6 @@ public class PropsLoader {
      * @param str La cadena de texto que se intentará convertir a un entero.
      * @return El valor entero de la cadena de texto dada.
      * @throws NumberFormatException Si la cadena de texto no puede ser convertida a un entero.
-     *
      * @see Integer#parseInt(String)
      */
     private static int parseToInt(String str) throws NumberFormatException {
