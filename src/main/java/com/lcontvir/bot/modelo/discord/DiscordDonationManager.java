@@ -1,15 +1,12 @@
 package com.lcontvir.bot.modelo.discord;
 
 import com.lcontvir.bot.controlador.discord.DonationEmbedBuilder;
-import com.lcontvir.bot.controlador.discord.FeedbackEmbedBuilder;
 import com.lcontvir.bot.controlador.jdbc.DiscordJdbcExtensions;
 import com.lcontvir.bot.controlador.jdbc.OperacionesCRUD;
-import com.lcontvir.bot.modelo.PropsLoader;
 import com.lcontvir.bot.modelo.steam.SteamJugador;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.slf4j.LoggerFactory;
 
 import static com.lcontvir.bot.controlador.jdbc.OperacionesCRUD.obtenerDonador;
@@ -149,33 +146,5 @@ public class DiscordDonationManager {
         }
 
         return respuesta;
-    }
-
-    /**
-     * Registra un feedback en el canal correspondiente y devuelve una respuesta en forma de MessageEmbed.
-     *
-     * @param nombre  El nombre del remitente del feedback. Si está vacío o es "Anonimo", se considera anónimo.
-     * @param asunto  El asunto del feedback.
-     * @param cuerpo  El cuerpo del feedback.
-     * @param miembro El miembro que envía el feedback.
-     * @return Una respuesta en forma de MessageEmbed que indica que el feedback ha sido registrado correctamente.
-     * @see TextChannel
-     * @see MessageEmbed
-     * @see FeedbackEmbedBuilder#FeedBackRegister(String, String, Member, boolean)
-     * @see FeedbackEmbedBuilder#FeedBackApprove(Member, boolean)
-     */
-    public static MessageEmbed RegistrarFeedback(String nombre, String asunto, String cuerpo, Member miembro) {
-        TextChannel feedbackChannel = miembro.getJDA().getTextChannelById(PropsLoader.getFeedbackChannelId());
-
-        MessageEmbed response;
-
-        if (nombre.isEmpty() || nombre.equals("Anonimo")) {
-            feedbackChannel.sendMessageEmbeds(FeedbackEmbedBuilder.FeedBackRegister(asunto, cuerpo, miembro, true)).queue();
-            response = FeedbackEmbedBuilder.FeedBackApprove(miembro, true);
-        } else {
-            feedbackChannel.sendMessageEmbeds(FeedbackEmbedBuilder.FeedBackRegister(asunto, cuerpo, miembro, false)).queue();
-            response = FeedbackEmbedBuilder.FeedBackApprove(miembro, false);
-        }
-        return response;
     }
 }

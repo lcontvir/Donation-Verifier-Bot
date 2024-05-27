@@ -28,10 +28,10 @@ public class ConexionBD {
      *                          <p>
      *                          Ejemplo de uso:
      *                          <pre>
-     *                                                   {@code
-     *                                                   Connection conn = ConexionBD.obtenerConexion();
-     *                                                   }
-     *                                                   </pre>
+     *                                                                            {@code
+     *                                                                            Connection conn = ConexionBD.obtenerConexion();
+     *                                                                            }
+     *                                                                            </pre>
      *                          </p>
      */
     public static Connection obtenerConexion() {
@@ -149,10 +149,10 @@ public class ConexionBD {
      *                  <p>
      *                  Ejemplo de uso:
      *                  <pre>
-     *                                   {@code
-     *                                   ConexionBD.EjercutarSentencia("INSERT INTO tabla (columna) VALUES ('valor`)");
-     *                                   }
-     *                                   </pre>
+     *                                                    {@code
+     *                                                    ConexionBD.EjercutarSentencia("INSERT INTO tabla (columna) VALUES ('valor`)");
+     *                                                    }
+     *                                                    </pre>
      *                  </p>
      */
     private static void EjecutarSentencia(String sentencia) {

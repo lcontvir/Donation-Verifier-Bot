@@ -1,5 +1,7 @@
 package com.lcontvir.bot.modelo.discord;
 
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,17 +21,17 @@ public class DiscordEntradaSoporteManager {
      * - Emoji: El emoji asociado a la entrada de soporte.
      */
     public static List<EntradaSoporte> getEntradasSoportebyNodeName(String nodeName) {
-        List<EntradaSoporte> entradaSoportes = new ArrayList<>();
-        entradaSoportes = EntradaSoporte.CargarEntradasSoporte();
-
         List<EntradaSoporte> entradaSoportesBase = new ArrayList<>();
-
-        for (EntradaSoporte entradaSoporte : entradaSoportes) {
-            if (Objects.equals(entradaSoporte.getNode(), nodeName)) {
-                entradaSoportesBase.add(entradaSoporte);
+        try {
+            List<EntradaSoporte> entradaSoportes = EntradaSoporte.CargarEntradasSoporte();
+            for (EntradaSoporte entradaSoporte : entradaSoportes) {
+                if (Objects.equals(entradaSoporte.getNode(), nodeName)) {
+                    entradaSoportesBase.add(entradaSoporte);
+                }
             }
+        } catch (Exception ex) {
+            LoggerFactory.getLogger("M.I.M.I - Entradas Soporte").error("Ha ocurrido un error al obtener las entradas de soporte por nombre de nodo: " + ex.getMessage());
         }
-
         return entradaSoportesBase;
     }
 

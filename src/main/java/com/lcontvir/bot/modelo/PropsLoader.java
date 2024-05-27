@@ -113,7 +113,7 @@ public class PropsLoader {
     public static boolean isConexionATercerosActive() {
 
         boolean result;
-        try{
+        try {
             result = Boolean.parseBoolean(appProps.getProperty("ConexionATercerosActive"));
         } catch (Exception e) {
             LoggerFactory.getLogger("M.I.M.I - Props Loader").error("No se ha podido cargar el estado de la conexion a terceros " + e.getMessage());
@@ -125,7 +125,7 @@ public class PropsLoader {
 
     public static boolean isFeedbackActive() {
         boolean result;
-        try{
+        try {
             result = Boolean.parseBoolean(appProps.getProperty("FeedbackActive"));
         } catch (Exception e) {
             result = false;
@@ -136,7 +136,7 @@ public class PropsLoader {
 
     public static boolean isSoporteActive() {
         boolean result;
-        try{
+        try {
             result = Boolean.parseBoolean(appProps.getProperty("SoporteActive"));
         } catch (Exception e) {
             result = false;
@@ -166,7 +166,11 @@ public class PropsLoader {
      * @see String#valueOf(int)
      */
     public static void setExpireDays(int expireDays) {
-        appProps.setProperty("ExpireDays", String.valueOf(expireDays));
+        try {
+            appProps.setProperty("ExpireDays", String.valueOf(expireDays));
+        } catch (Exception ex) {
+            LoggerFactory.getLogger("M.I.M.I - Props Loader").error("Ha ocurrido un error al establecer la propiedad ExpireDays: " + ex.getMessage());
+        }
     }
 
     /**
@@ -200,7 +204,11 @@ public class PropsLoader {
      * @see String#valueOf(int)
      */
     public static void setCooldownModificacion(int cooldown) {
-        appProps.setProperty("CoolDownModificacion", String.valueOf(cooldown));
+        try {
+            appProps.setProperty("CoolDownModificacion", String.valueOf(cooldown));
+        } catch (Exception ex) {
+            LoggerFactory.getLogger("M.I.M.I - Props Loader").error("Ha ocurrido un error al establecer la propiedad CoolDownModificacion: " + ex.getMessage());
+        }
     }
 
     /**

@@ -2,6 +2,7 @@ package com.lcontvir.bot.modelo.discord;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -78,7 +79,8 @@ public class EntradaSoporte {
             }
 
         } catch (IOException | JSONException e) {
-            e.printStackTrace();
+            LoggerFactory.getLogger("M.I.M.I - Entrada Soporte").error("No se han podido cargar las entradas de soporte" + e.getMessage());
+
         }
         return EntradasSoporte;
     }
@@ -92,12 +94,16 @@ public class EntradaSoporte {
      * Si no se encuentra ninguna entrada de soporte que corresponda al ID de la fila, se devuelve un nuevo objeto EntradaSoporte vacío.
      */
     public static EntradaSoporte getEntradaSoporteByRowID(String rowID) {
-        List<EntradaSoporte> entradaSoporteList = CargarEntradasSoporte();
-        for (EntradaSoporte EntradaSoporte : entradaSoporteList) {
-            if (EntradaSoporte.getTitulo().toLowerCase().trim().equals(rowID)) {
-                System.out.println(EntradaSoporte.getPathToMessage());
-                return EntradaSoporte;
+        try {
+            List<EntradaSoporte> entradaSoporteList = CargarEntradasSoporte();
+            for (EntradaSoporte EntradaSoporte : entradaSoporteList) {
+                if (EntradaSoporte.getTitulo().toLowerCase().trim().equals(rowID)) {
+                    System.out.println(EntradaSoporte.getPathToMessage());
+                    return EntradaSoporte;
+                }
             }
+        } catch (Exception ex) {
+            LoggerFactory.getLogger("M.I.M.I - Entrada Soporte").error("Ha ocurrido un error al obtener la entrada de soporte por ID de fila: " + ex.getMessage());
         }
         return new EntradaSoporte();
     }
@@ -129,7 +135,8 @@ public class EntradaSoporte {
             String contenidoString = contenido.toString();
             return contenidoString;
         } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I - Entrada Soporte").error("Ha ocurrido un error al leer el archivo: " + e.getMessage());
+
         }
         return "";
     }

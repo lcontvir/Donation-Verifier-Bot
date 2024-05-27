@@ -1,8 +1,10 @@
 package com.lcontvir.bot.controlador.discord;
 
+import com.lcontvir.bot.modelo.PropsLoader;
 import net.dv8tion.jda.api.entities.EmbedType;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -77,6 +79,13 @@ public class FeedbackEmbedBuilder {
                 fields);
     }
 
+    /**
+     * Este método crea y devuelve un objeto MessageEmbed para un mensaje de comando inactivo.
+     *
+     * @return {@link net.dv8tion.jda.api.entities.MessageEmbed} Un objeto MessageEmbed que contiene la información del mensaje de comando inactivo.
+     * El mensaje indica que el comando está inactivo en este momento.
+     * El tipo de embed es RICH, el color es 16711680 (rojo), y el pie de página indica "Feedback Servidor".
+     */
     public static MessageEmbed FeedBackInactive() {
 
         return new MessageEmbed(
@@ -93,5 +102,33 @@ public class FeedbackEmbedBuilder {
                 new MessageEmbed.Footer("Feedback Servidor", "", ""),
                 null,
                 null);
+    }
+
+    /**
+     * Registra un feedback en el canal correspondiente y devuelve una respuesta en forma de MessageEmbed.
+     *
+     * @param nombre  El nombre del remitente del feedback. Si está vacío o es "Anonimo", se considera anónimo.
+     * @param asunto  El asunto del feedback.
+     * @param cuerpo  El cuerpo del feedback.
+     * @param miembro El miembro que envía el feedback.
+     * @return Una respuesta en forma de MessageEmbed que indica que el feedback ha sido registrado correctamente.
+     * @see TextChannel
+     * @see MessageEmbed
+     * @see FeedbackEmbedBuilder#FeedBackRegister(String, String, Member, boolean)
+     * @see FeedbackEmbedBuilder#FeedBackApprove(Member, boolean)
+     */
+    public static MessageEmbed RegistrarFeedback(String nombre, String asunto, String cuerpo, Member miembro) {
+        TextChannel feedbackChannel = miembro.getJDA().getTextChannelById(PropsLoader.getFeedbackChannelId());
+
+        MessageEmbed response;
+
+        if (nombre.isEmpty() || nombre.equals("Anonimo")) {
+            feedbackChannel.sendMessageEmbeds(FeedbackEmbedBuilder.FeedBackRegister(asunto, cuerpo, miembro, true)).queue();
+            response = FeedbackEmbedBuilder.FeedBackApprove(miembro, true);
+        } else {
+            feedbackChannel.sendMessageEmbeds(FeedbackEmbedBuilder.FeedBackRegister(asunto, cuerpo, miembro, false)).queue();
+            response = FeedbackEmbedBuilder.FeedBackApprove(miembro, false);
+        }
+        return response;
     }
 }

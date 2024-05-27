@@ -268,6 +268,20 @@ public class PropsVerificator {
         return resultado;
     }
 
+    /**
+     * Este método verifica si la funcionalidad de conexión a terceros está activa.
+     * <p>
+     * Primero, se inicializa una variable booleana 'resultado' en false.
+     * Luego, se imprime una línea de separación en la consola y se registra el inicio de la verificación.
+     * <p>
+     * Se comprueba si la funcionalidad de conexión a terceros está activa utilizando el método 'isConexionATercerosActive' de la clase 'PropsLoader'.
+     * Si la funcionalidad de conexión a terceros está activa, se registra este hecho y se establece 'resultado' en true.
+     * Si la funcionalidad de conexión a terceros no está activa, se registra una advertencia.
+     * <p>
+     * Finalmente, se registra el final de la verificación y se devuelve el valor de 'resultado'.
+     *
+     * @return {@code true} si la funcionalidad de conexión a terceros está activa, {@code false} en caso contrario.
+     */
     public static boolean isConexionATercerosActive() {
 
         boolean resultado = false;
@@ -284,6 +298,20 @@ public class PropsVerificator {
         return resultado;
     }
 
+    /**
+     * Este método verifica si la funcionalidad de feedback está activa.
+     * <p>
+     * Primero, se inicializa una variable booleana 'resultado' en false.
+     * Luego, se imprime una línea de separación en la consola y se registra el inicio de la verificación.
+     * <p>
+     * Se comprueba si la funcionalidad de feedback está activa utilizando el método 'isFeedbackActive' de la clase 'PropsLoader'.
+     * Si la funcionalidad de feedback está activa, se registra este hecho y se establece 'resultado' en true.
+     * Si la funcionalidad de feedback no está activa, se registra una advertencia.
+     * <p>
+     * Finalmente, se registra el final de la verificación y se devuelve el valor de 'resultado'.
+     *
+     * @return {@code true} si la funcionalidad de feedback está activa, {@code false} en caso contrario.
+     */
     public static boolean isFeedbackActive() {
 
         boolean resultado = false;
@@ -300,6 +328,20 @@ public class PropsVerificator {
         return resultado;
     }
 
+    /**
+     * Este método verifica si la funcionalidad de soporte automático está activa.
+     * <p>
+     * Primero, se inicializa una variable booleana 'resultado' en false.
+     * Luego, se imprime una línea de separación en la consola y se registra el inicio de la verificación.
+     * <p>
+     * Se comprueba si la funcionalidad de soporte automático está activa utilizando el método 'isSoporteActive' de la clase 'PropsLoader'.
+     * Si la funcionalidad de soporte automático está activa, se registra este hecho y se establece 'resultado' en true.
+     * Si la funcionalidad de soporte automático no está activa, se registra una advertencia.
+     * <p>
+     * Finalmente, se registra el final de la verificación y se devuelve el valor de 'resultado'.
+     *
+     * @return {@code true} si la funcionalidad de soporte automático está activa, {@code false} en caso contrario.
+     */
     public static boolean isSoporteActive() {
 
         boolean resultado = false;

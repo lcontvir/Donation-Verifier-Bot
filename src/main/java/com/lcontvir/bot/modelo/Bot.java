@@ -14,13 +14,13 @@ public class Bot {
         try {
             PropsLoader.loadAppProps();
 
-            if(!PropsVerificator.VerifyDiscordConexion()){
+            if (!PropsVerificator.VerifyDiscordConexion()) {
                 return;
             }
 
             if (PropsLoader.isConexionATercerosActive()) {
 
-                if (!PropsVerificator.VerifySteamConexion() || !PropsVerificator.VerifyDatabaseConexion() || !ConexionBD.PrepareDatabase()){
+                if (!PropsVerificator.VerifySteamConexion() || !PropsVerificator.VerifyDatabaseConexion() || !ConexionBD.PrepareDatabase()) {
                     return;
                 }
                 PropsVerificator.VerifyCooldownHours();

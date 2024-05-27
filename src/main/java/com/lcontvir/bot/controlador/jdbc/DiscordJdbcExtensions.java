@@ -54,9 +54,9 @@ public class DiscordJdbcExtensions {
             }
 
         } catch (SQLException e) {
-            LoggerFactory.getLogger("Bot Donaciones - Discord JDBC Extensions").error("Error al consultar datos para obtener un rol que correspondiente a los roles del miembro: " + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I - Discord JDBC Extensions").error("Error al consultar datos para obtener un rol que correspondiente a los roles del miembro: " + e.getMessage());
         } catch (RuntimeException ex) {
-            LoggerFactory.getLogger("Bot Donaciones - Discord JDBC Extensions").error("Ha ocurrido un error al contactar con la base de datos: " + ex.getMessage());
+            LoggerFactory.getLogger("M.I.M.I - Discord JDBC Extensions").error("Ha ocurrido un error al contactar con la base de datos: " + ex.getMessage());
         }
 
         return RoleSeleccionado;
@@ -92,9 +92,9 @@ public class DiscordJdbcExtensions {
             }
 
         } catch (SQLException e) {
-            LoggerFactory.getLogger("Bot Donaciones - Discord JDBC Extensions").error("Error al consultar datos para saber si ha donado: " + e.getMessage());
+            LoggerFactory.getLogger("M.I.M.I - Discord JDBC Extensions").error("Error al consultar datos para saber si ha donado: " + e.getMessage());
         } catch (RuntimeException ex) {
-            LoggerFactory.getLogger("Bot Donaciones - Discord JDBC Extensions").error("Ha ocurrido un error al contactar con la base de datos: " + ex.getMessage());
+            LoggerFactory.getLogger("M.I.M.I - Discord JDBC Extensions").error("Ha ocurrido un error al contactar con la base de datos: " + ex.getMessage());
         }
         return existDato;
     }
@@ -138,6 +138,16 @@ public class DiscordJdbcExtensions {
         return idDonadorRole;
     }
 
+    /**
+     * Este método se utiliza para actualizar la base de datos (BBDD).
+     * Elimina los usuarios de la tabla 'Usuario' cuya 'FechaRegistro' es anterior a 31 días desde la fecha actual.
+     * <p>
+     * Primero, se establece la consulta SQL para eliminar los usuarios correspondientes.
+     * Luego, se obtiene una conexión a la base de datos y se prepara la declaración SQL.
+     * Se ejecuta la actualización y se registra el resultado.
+     * <p>
+     * Si ocurre una excepción durante el proceso, se registra el error.
+     */
     public static void ActualizarBBDD() {
         String sql = "DELETE FROM Usuario WHERE FechaRegistro < (NOW() - INTERVAL 31 DAY)";
         try (Connection connection = ConexionBD.obtenerConexion(); PreparedStatement statement = connection.prepareStatement(sql)) {

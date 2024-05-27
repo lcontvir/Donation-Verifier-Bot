@@ -25,25 +25,25 @@ public class ReadyListener extends ListenerAdapter {
     public void onReady(ReadyEvent event) {
         try {
 
-            if(PropsVerificator.isFeedbackActive()){
+            if (PropsVerificator.isFeedbackActive()) {
 
-                if(!PropsVerificator.VerifyFeedbackChannelId(event.getJDA())){
+                if (!PropsVerificator.VerifyFeedbackChannelId(event.getJDA())) {
                     return;
                 }
             }
 
-            if(PropsVerificator.isSoporteActive()){
-                if(!PropsVerificator.VerifySoporteChannelId(event.getJDA())){
+            if (PropsVerificator.isSoporteActive()) {
+                if (!PropsVerificator.VerifySoporteChannelId(event.getJDA())) {
                     return;
                 }
-                if(!PropsVerificator.VerifyTicketCategoryId(event.getJDA())){
+                if (!PropsVerificator.VerifyTicketCategoryId(event.getJDA())) {
                     return;
                 }
             }
 
             ArrayList<SlashCommandData> Comandos = new ArrayList<>();
 
-            if(PropsLoader.isConexionATercerosActive()){
+            if (PropsLoader.isConexionATercerosActive()) {
                 Comandos.add(Commands.slash("registrar-donacion", "Registra tu donacion")
                         .addOption(OptionType.STRING, "steamid64", "Tu steamid", true));
                 Comandos.add(Commands.slash("ver-donacion", "Muestra los datos de tu donacion"));
@@ -52,13 +52,13 @@ public class ReadyListener extends ListenerAdapter {
             }
 
             if (PropsLoader.isSoporteActive()) {
-                if (JsonManager.VerifyJsonConfig()){
+                if (JsonManager.VerifyJsonConfig()) {
                     Comandos.add(Commands.slash("soporte", "Obten soporte en el servidor"));
                     event.getJDA().getTextChannelById(PropsLoader.getSupportChannelId()).sendMessageEmbeds(SupportEmbedBuilder.RequestBaseSupportEmbed()).addActionRow(SupportEmbedBuilder.RequestBaseSupportActionRowButtons()).queue();
                 }
             }
 
-            if (PropsLoader.isFeedbackActive()){
+            if (PropsLoader.isFeedbackActive()) {
                 Comandos.add(Commands.slash("feedback", "Rellena un formulario de feedback"));
             }
 
